@@ -1,0 +1,29 @@
+1, main.go 기본 서버 구현 
+
+2. chat.proto 
+간단한 채팅서비스를 위한 통신 방식 정하기 위한 파일
+.proto suffix가 붙는 파일들은 서버와 클라이언트가 서로 공유하는 파일로, gRPC를 통해 서로 어떻게 통신 할 것인지 대해 정의
+위 파일 같은 경우 chatservice 라는 서비스를 expose하고 이 서비스는 sayhello라는 함수 호출
+어떤 프로그래밍 언어를 사용하는 것과는 관개없이 그냥 이 호출 규약만 지키면 다 호출됨
+
+proto파일을 따라서 go 호출할 수 있게 해주는 go specific한 grpc 코드
+
+mkdir chat
+protoc -I . --go_out=plugins=grpc:. protos/chat.proto //플로그인이 이제 지원하지않음
+protoc --go_out=. protos/chat.proto <<-- 에러 날 시에
+
+protoc -I. --go-grpc_out=. --go_out=. ./protos/chat.proto
+
+
+protoc --go_out=. --go-grpc_opt=require_unimplemented_servers=false --go-grpc_out=. protos/*.proto 
+//이유는 server구조체에서 핼로우 값을 받아와야하는데 이게 새로운 버전으로 생김 unimplemented를 꺼주면됨
+
+3. chat/chat.pb.go 라는 파일 -> 에서 미리 정의해준 함수들을 통해 gRPC 통신을 할 수 있다.
+4)- 서버에 chatSERvice등록 (register)
+5)- chat/chat.go에 어떤 작업을 수행할 것인지 함수의 내용 정의
+	(어떤 함수 호출 시 동작 할 건지)
+
+4. 서버에 chatService등록 main.go(server.go)
+
+5. go run server.go
+

@@ -1,0 +1,22 @@
+1. 간단한 개념 및 설치
+
+1. protocol buffer 설치
+
+go get -u github.com/golang/protobuf/protoc-gen-go
+
+#맥북 brew install protobuf
+
+2. go env환경변수 설정
+
+#vim ~/.bash_profile
+export GO_PATH=~/go
+export PATH=$PATH:/$GO_PATH/bin
+#source ~/.bash_profile
+
+
+2. grpc rest 차이점 특징
+- grpc -> http2 , rest -> http1.1
+- grpc -> protocol buffer data format, rest -> json
+- grpc -> server-side streaming, 등 feature활용 가능
+- 내부적으로 netty 소켓 통신 
+- 배포한 서비스도 구조 바꿀 수 있다.
